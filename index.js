@@ -9,10 +9,16 @@ class MakeNeatObject {
     constructor(link, name, dateStr) {
         this.link = link;
         this.name = name;
-        this.date = new Date(...(this.getDateStrInArray(this.dateSTr.split('Published')[1])));
+        // MakeNeatObject.getDateStrInArray(dateStr);
+        this.date = new Date(...(MakeNeatObject.getDateStrInArray(dateStr)));
     }
     static getDateStrInArray (dspar) {
-        return [+dspar[3], monthArray.indexOf(dspar[1]) , +(dspar[2].split(',')[0]), dspar[4].split(":")[0], dspar[4].split(":")[1]]
+        // console.log(dspar)
+        // console.log(typeof dspar)
+        // console.log(dspar.split('Published')[1].split(' '));
+        dspar = dspar.split('Published')[1].split(' ');
+        // let hol = [+dspar[3], monthArray.indexOf(dspar[1]) , +(dspar[2].split(',')[0]), dspar[4].split(":")[0], dspar[4].split(":")[1]];
+        return [+dspar[3], monthArray.indexOf(dspar[1]) , +(dspar[2].split(',')[0]), dspar[4].split(":")[0], dspar[4].split(":")[1]];
     }
 }
 axios.get("https://www.thehindu.com/opinion/lead/").then(function(response) {
@@ -23,20 +29,22 @@ axios.get("https://www.thehindu.com/opinion/lead/").then(function(response) {
     const masterLeadArray = [];
         for (let card of topShowcase) {
             const finalEle = card.nextElementSibling.childNodes[1];
-            masterLeadArray.push({
-                date : finalEle.title,
-                name: finalEle.innerHTML,
-                link: finalEle.href
-            })
+            // masterLeadArray.push({
+            //     date : finalEle.title,
+            //     name: finalEle.innerHTML,
+            //     link: finalEle.href
+            // })
+            masterLeadArray.push(new MakeNeatObject(finalEle.href, finalEle.innerHTML, finalEle.title));
             // console.log(`published date: ${finalEle.title}
             // Article name: ${finalEle.innerHTML}`);
         }
         for (let card of bottomHidden) {
-            masterLeadArray.push({
-                date: card.title,
-                name: card.innerHTML,
-                link: card.href
-            })
+            // masterLeadArray.push({
+            //     date: card.title,
+            //     name: card.innerHTML,
+            //     link: card.href
+            // })
+            masterLeadArray.push(new MakeNeatObject(card.href, card.innerHTML, card.title))
         }
         console.log(masterLeadArray)
 
