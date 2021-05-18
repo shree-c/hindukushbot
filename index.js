@@ -2,7 +2,7 @@ const axios = require('axios').default;
 const jsdom = require("jsdom");
 const { htmlToText } = require('html-to-text');
 const { JSDOM } = jsdom;
-const { getFirart } = require('./getart')
+const { getFirart, genAxiosget } = require('./getart')
 const monthArray = ["January", "Febuary", "March", "April", "May", "June", "July", "Auguest", "Sepetember", "October",
     "November", "December"];
 class MakeNeatObject {
@@ -19,12 +19,12 @@ class MakeNeatObject {
 
 
 
+const masterLeadArray = [];
 
-axios.get("https://www.thehindu.com/opinion/lead/").then(function (response) {
+axios.get("https://www.thehindu.com/opinion/lead/").then(async function (response) {
     const { window } = new JSDOM(response.data);
     const topShowcase = window.document.querySelectorAll(".story-card-heading")
     const bottomHidden = window.document.querySelectorAll(".Other-StoryCard-heading");
-    const masterLeadArray = [];
     for (let card of topShowcase) {
         const finalEle = card.nextElementSibling.childNodes[1];
         masterLeadArray.push(new MakeNeatObject(finalEle.href, finalEle.innerHTML, finalEle.title));
@@ -32,17 +32,16 @@ axios.get("https://www.thehindu.com/opinion/lead/").then(function (response) {
     for (let card of bottomHidden) {
         masterLeadArray.push(new MakeNeatObject(card.href, card.innerHTML, card.title))
     }
-    getFirart(masterLeadArray[0].link)
 }).catch(function (error) {
     console.log(error);
+}).then(async ()=>{
+    const artObj = genAxiosget(masterLeadArray[2].link, "#artmeterinlinewrap ~ div");
+    artObj.then((value)=>{
+        console.log(htmlToText(value[0].innerHTML));
+    }).catch((err)=>{
+        console.log(err);
+    })
 });
 
 
-function genAxiosget(url, cssSel) {
-    axios.get(url).then((response)=>{
-        const {window} = new JSDOM(response.data);
-        return window.document.querySelectorAll(cssSel)
-    }).catch((err)=>{
-        console.log(err)
-    })
-}
+
