@@ -14,17 +14,17 @@ exports.genAxiosget = function (url, cssSel) {
     return new Promise((resolve, reject)=>{
         axios.get(url).then((response) => {
             const { window } = new JSDOM(response.data);
-            // console.log(htmlToText(window.document.querySelectorAll(cssSel)[0].innerHTML))
             if (cssSel) {
-                console.log('came here')
                 let hold = window.document.querySelectorAll(cssSel);
-                // // console.log(htmlToText(hold[0].innerHTML))
-                resolve(hold)
+                resolve(hold);
             }
             else
-                resolve(window.document)
+                resolve(window.document);
         }).catch((err) => {
             reject(err);
         })
     })
 }
+// exports.ges = function (url, cssSel) {
+
+// }
