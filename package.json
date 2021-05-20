@@ -12,6 +12,8 @@
     "axios": "^0.21.1",
     "express": "^4.17.1",
     "html-to-text": "^7.1.1",
-    "jsdom": "^16.5.3"
+    "jsdom": "^16.5.3",
+    "loadash": "^1.0.0",
+    "telegraf": "^4.3.0"
   }
 }
