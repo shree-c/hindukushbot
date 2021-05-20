@@ -11,43 +11,52 @@ function smallArrayTurner(arr) {
     }
     return retArr;
 }
-// getArticleBody('lead', realfilterfun).then((value)=>{
-//     console.log(value.length)
-//     let hold = breakStr(value, 4000)
-//     for (const obj of hold) {
-//         console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${obj.length}`)
-//         for (const sobj of obj) {
-//             console.log("\n*************************************\n")
 
-//         }
-//     }
-// }).catch((err)=>{
-//     console.log(err)
-// })
 bot.command('gettodayslead', (ctx) => {
-    getArticleBody('lead', realfilterfun).then((value) => {
-        const hold = breakStr(value, 4000);
-        for (let bobj of hold) {
+    getCachedArticleBody('lead').then((value) => {
+        for (let bobj of value) {
             for (let sobj of bobj) {
                 bot.telegram.sendMessage(ctx.chat.id, sobj);
             }
         }
-
         console.log('sent it')
         console.log(ctx.from)
     }).catch((err) => {
         console.log(err);
     })
 })
+function getCachedArticleBody(section) {
+    return new Promise((resolve, reject) => {
+        if (getCachedArticleBody.updatedTime && ((new Date()).getTime() - getCachedArticleBody.updatedTime < 86400000)) {
+            console.log('cached body return');
+            resolve(getCachedArticleBody.brokenArray[section]);
+        } else {
+            getArticleBody(section, realfilterfun).then((value) => {
+                getCachedArticleBody.brokenArray[section] = breakStr(value, 4000);
+                getCachedArticleBody.updatedTime = (new Date()).getTime();
+                console.log(getCachedArticleBody.brokenArray[section])
+                console.log('non cached body return');
+                resolve(getCachedArticleBody.brokenArray[section]);
+            }).catch((err) => {
+                if (err)
+                    reject(err)
+            })
+        }
+    })
+
+}
+getCachedArticleBody.brokenArray = {
+    lead: null,
+    editorial: null,
+};
+
 bot.command('gettodayseditorials', (ctx) => {
-    getArticleBody('lead', realfilterfun).then((value) => {
-        const hold = breakStr(value, 4000);
-        for (let bobj of hold) {
+    getCachedArticleBody('editorial').then((value) => {
+        for (let bobj of value) {
             for (let sobj of bobj) {
                 bot.telegram.sendMessage(ctx.chat.id, sobj);
             }
         }
-
         console.log('sent it')
         console.log(ctx.from)
     }).catch((err) => {
