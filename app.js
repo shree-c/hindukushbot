@@ -2,18 +2,8 @@ require('dotenv').config();
 const { Telegraf } = require('telegraf');
 const { getArticleBody, realfilterfun } = require('./index');
 const breakStr = require('./brkstrfun');
-// var _ = require('lodash');
 const apikey = process.env.TELE_KEY;
 const bot = new Telegraf(apikey);
-function smallArrayTurner(arr) {
-    console.log(arr)
-    const retArr = [];
-    for (const obj of arr) {
-        retArr.push(_.chunk(obj, 4000))
-    }
-    return retArr;
-}
-
 bot.command('gettodayslead', (ctx) => {
     getCachedArticleBody('lead').then((value) => {
         for (let bobj of value) {
@@ -35,7 +25,7 @@ function getCachedArticleBody(section) {
         } else {
             getArticleBody(section, realfilterfun).then((value) => {
                 getCachedArticleBody.brokenArray[section] = breakStr(value, 4000);
-                getCachedArticleBody.updatedTime = (new Date()).getTime();
+                getCachedArticleBody.updatedTime[section] = (new Date()).getTime();
                 console.log(getCachedArticleBody.brokenArray[section])
                 console.log('non cached body return');
                 resolve(getCachedArticleBody.brokenArray[section]);
@@ -51,6 +41,10 @@ getCachedArticleBody.brokenArray = {
     lead: null,
     editorial: null,
 };
+getCachedArticleBody.updatedTime = {
+    lead: null,
+    editorial: null,
+}
 
 bot.command('gettodayseditorials', (ctx) => {
     getCachedArticleBody('editorial').then((value) => {
@@ -65,9 +59,5 @@ bot.command('gettodayseditorials', (ctx) => {
         console.log(err);
     })
 })
-// bot.command('start', ctx => {
-//     console.log(ctx.from)
-//     bot.telegram.sendMessage(ctx.chat.id, 'hello there! Welcome to my new telegram bot.', {
-//     })
-// })
+
 bot.launch();
