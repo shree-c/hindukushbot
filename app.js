@@ -1,8 +1,10 @@
+require('dotenv').config();
 const { Telegraf } = require('telegraf');
 const { getArticleBody, realfilterfun } = require('./index');
 const breakStr = require('./brkstrfun');
 // var _ = require('lodash');
-const bot = new Telegraf('1864443655:AAHljGe3zrgq796EsCF6QMzUUP9W9OW0L4E');
+const apikey = process.env.TELE_KEY;
+const bot = new Telegraf(apikey);
 function smallArrayTurner(arr) {
     console.log(arr)
     const retArr = [];
