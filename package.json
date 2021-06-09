@@ -16,6 +16,7 @@
     "jsdom": "^16.5.3",
     "loadash": "^1.0.0",
     "mongodb": "^3.6.8",
+    "node-schedule": "^2.0.0",
     "telegraf": "^4.3.0"
   }
 }
