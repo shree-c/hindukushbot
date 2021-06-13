@@ -1,3 +1,5 @@
+//this function strings in an array to required lengths and makes array of chunks-strings and pushes them
+//in turn into another array and returns it
 function breakStr(bigArr, chunksize) {
     const retArr = [];
     for (const obj of bigArr) {
@@ -13,7 +15,4 @@ function breakStr(bigArr, chunksize) {
     }
     return retArr;
 }
-
-// let a = ["all the fucikng things in the world", "are sometimes good"]
-// console.log(breakStr(a, 5))
 module.exports = breakStr

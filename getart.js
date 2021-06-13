@@ -10,6 +10,7 @@ exports.getFirart = function (link) {
         console.log(err)
     });
 }
+//this is the function which gets the required dom element from the required url
 exports.genAxiosget = function (url, cssSel) {
     return new Promise((resolve, reject)=>{
         axios.get(url).then((response) => {
