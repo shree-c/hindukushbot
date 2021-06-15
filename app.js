@@ -1,4 +1,3 @@
-require('dotenv').config();
 const client = require('./db');
 const db = client.db('telesend')
 const bot = require('./botinit')
