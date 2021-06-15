@@ -1,4 +1,4 @@
-//this function strings in an array to required lengths and makes array of chunks-strings and pushes them
+//this function breaks strings in an array to required lengths and makes array of chunks-strings and pushes them
 //in turn into another array and returns it
 function breakStr(bigArr, chunksize) {
     const retArr = [];
