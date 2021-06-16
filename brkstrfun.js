@@ -15,4 +15,4 @@ function breakStr(bigArr, chunksize) {
     }
     return retArr;
 }
-module.exports = breakStr
+module.exports = breakStr;

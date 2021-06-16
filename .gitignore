@@ -3,3 +3,6 @@ node_modules
 notes
 nindex.js
 test.js
+app.js.log
+express.js.log
+combined.log

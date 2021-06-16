@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +18,10 @@
     "loadash": "^1.0.0",
     "mongodb": "^3.6.8",
     "node-schedule": "^2.0.0",
-    "telegraf": "^4.3.0"
+    "telegraf": "^4.3.0",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.28.0"
   }
 }
