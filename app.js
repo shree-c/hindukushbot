@@ -102,7 +102,7 @@ bot.command('gettodayseditorials', (ctx) => {
                 await ctx.reply(sobj);
             }
         }
-        logger.info(`sent lead to ${ctx.chat.username | ctx.chat.first_name}`);
+        logger.info(`sent lead to ${ctx.chat.username || ctx.chat.first_name}`);
     }).catch(async (err) => {
         await ctx.reply('We have got some problems going on. We will correct them as soon as possible. Sorry for inconvinence.');
         logger.error(err.message);
