@@ -52,6 +52,7 @@ app.post('/updates', async function (req, res) {
             for (const edi of ediarts) {
                 await genSendmsg(idarr, bot, edi);
             }
+            res.send('sent updates');
             logger.info('sent manual updates');
         })).catch((err) => {
             res.send(err.message);

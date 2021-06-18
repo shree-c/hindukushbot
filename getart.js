@@ -1,7 +1,17 @@
 const axios = require('axios');
 const JSDOM = require('jsdom').JSDOM;
 const { htmlToText } = require('html-to-text');
-
+const winston = require('winston');
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    defaultMeta: {service: 'genartfuns'},
+    transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({ filename: 'combined.log' }),
+        new winston.transports.File({ filename: 'getart.js.log' })
+    ],
+});
 exports.getFirart = function (link) {
     axios.get(link).then((response) => {
         const { window } = new JSDOM(response.data);
@@ -37,10 +47,19 @@ exports.genSendmsg = async function (arr, bot, message) {
     for (const id of arr) {
         if (Array.isArray(message)) {
             for (const str of message) {
+                try {
                 await bot.telegram.sendMessage(id, str);
+                } catch (err) {
+                    logger.log(err.message);
+                }
             }
         } else {
+         try {
             await bot.telegram.sendMessage(id, message.trim());
+            } catch (err) {
+                logger.log(err.message)
+            }
+
         }
     }
     return arr.length;
