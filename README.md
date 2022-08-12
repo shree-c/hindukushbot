@@ -1,2 +1,4 @@
-# hindukushbot
-This is a telegram bot which sends the lead and editorial articles of that day to your telegram inbox
+# hindukushbot :robot:
+*currently not active*
+
+A telegram bot if subscribed to sends daily editorials published at thehindu.com
